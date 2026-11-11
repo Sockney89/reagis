@@ -1,0 +1,75 @@
+    fn parse_rest_command(self, body: Str) -> List[Str] {
+        let mut tokens: List[Str] = []
+        let jp = JsonParser {}
+        match jp.parse(body) {
+            ok(j) => {
+                let mut cmd = ""
+                let mut args: List[Str] = []
+                match jp.as_obj(j) {
+                    some(obj) => {
+                        if obj.contains("cmd") {
+                            match obj["cmd"] {
+                                Json::Str(s) => { cmd = s }
+                                _ => {}
+                            }
+                        }
+                        if obj.contains("args") {
+                            match jp.as_arr(obj["args"]) {
+                                some(arr) => {
+                                    let mut i = 0
+                                    while i < arr.length() {
+                                        let v = arr[i]
+                                        match v {
+                                            Json::Str(s) => { args.append(s) }
+                                            Json::Num(f) => { args.append(str(f)) }
+                                            Json::Bool(b) => {
+                                                if b { args.append("true") } else { args.append("false") }
+                                            }
+                                            _ => { args.append("") }
+                                        }
+                                        i = i + 1
+                                    }
+                                }
+                                none => {}
+                            }
+                        }
+                    }
+                    none => {
+                        match jp.as_arr(j) {
+                            some(arr) => {
+                                if arr.length() > 0 {
+                                    match arr[0] {
+                                        Json::Str(s) => { cmd = s }
+                                        _ => {}
+                                    }
+                                    let mut i = 1
+                                    while i < arr.length() {
+                                        let v = arr[i]
+                                        match v {
+                                            Json::Str(s) => { args.append(s) }
+                                            Json::Num(f) => { args.append(str(f)) }
+                                            Json::Bool(b) => {
+                                                if b { args.append("true") } else { args.append("false") }
+                                            }
+                                            _ => { args.append("") }
+                                        }
+                                        i = i + 1
+                                    }
+                                }
+                            }
+                            none => {}
+                        }
+                    }
+                }
+                if cmd != "" {
+                    tokens.append(cmd)
+                    loop a in args {
+                        tokens.append(a)
+                    }
+                }
+            }
+            err(m) => {}
+        }
+        return tokens
+    }
+

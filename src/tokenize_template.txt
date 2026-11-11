@@ -1,0 +1,44 @@
+    fn tokenize(self, line: Str) -> List[Str] {
+        let mut tokens: List[Str] = []
+        let mut i = 0
+        let n = line.length()
+        let mut cur: List[Str] = []
+        let mut in_quote = false
+        while i < n {
+            let c = line[i]
+            if in_quote {
+                if c == "\\" {
+                    i = i + 1
+                    if i < n {
+                        cur.append(line[i])
+                    }
+                } else if c == "\"" {
+                    tokens.append(cur.join(""))
+                    cur = []
+                    in_quote = false
+                } else {
+                    cur.append(c)
+                }
+            } else {
+                if c == " " || c == "\t" || c == "\r" || c == "\n" {
+                    if cur.length() > 0 {
+                        tokens.append(cur.join(""))
+                        cur = []
+                    }
+                } else if c == "\"" {
+                    if cur.length() > 0 {
+                        tokens.append(cur.join(""))
+                        cur = []
+                    }
+                    in_quote = true
+                } else {
+                    cur.append(c)
+                }
+            }
+            i = i + 1
+        }
+        if cur.length() > 0 {
+            tokens.append(cur.join(""))
+        }
+        return tokens
+    }

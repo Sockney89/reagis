@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "aegis": {
+      "command": [
+        "C:/Users/b-admin/AppData/Local/Aegis/bin/aegis-mcp.exe"
+      ],
+      "enabled": true,
+      "environment": {
+        "AEGIS_CC": "C:/LLVM/bin/clang.exe"
+      },
+      "type": "local"
+    }
+  }
+}

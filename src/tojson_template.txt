@@ -1,0 +1,46 @@
+            RResult::RArr(xs) => {
+                let mut sb = StrBuf { parts: [] }
+                sb.append("\{\"ok\":true,\"type\":\"array\",\"value\":[")
+                let mut first = true
+                loop v in xs {
+                    if !first { sb.append(",") }
+                    first = false
+                    sb.append("\"")
+                    sb.append(h.json_escape(v))
+                    sb.append("\"")
+                }
+                sb.append("]\}")
+                return sb.to_string()
+            }
+            RResult::RSetArr(xs) => {
+                let mut sb = StrBuf { parts: [] }
+                sb.append("\{\"ok\":true,\"type\":\"set\",\"value\":[")
+                let mut first = true
+                loop v in xs {
+                    if !first { sb.append(",") }
+                    first = false
+                    sb.append("\"")
+                    sb.append(h.json_escape(v))
+                    sb.append("\"")
+                }
+                sb.append("]\}")
+                return sb.to_string()
+            }
+            RResult::RHashArr(m) => {
+                let ks = m.keys()
+                let mut sb = StrBuf { parts: [] }
+                sb.append("\{\"ok\":true,\"type\":\"hash\",\"value\":\{")
+                let mut first = true
+                loop k in ks {
+                    if !first { sb.append(",") }
+                    first = false
+                    let v = m[k]
+                    sb.append("\"")
+                    sb.append(h.json_escape(k))
+                    sb.append("\":\"")
+                    sb.append(h.json_escape(v))
+                    sb.append("\"")
+                }
+                sb.append("\}\}")
+                return sb.to_string()
+            }

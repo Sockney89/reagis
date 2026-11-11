@@ -1,0 +1,19 @@
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.a
+*.lib
+*.dll
+
+# Aegis workspace
+.aegis/
+wal.log
+snapshot.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Temp
+*.tmp

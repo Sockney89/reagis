@@ -123,7 +123,3 @@ src/reagis.aegis    # Aegis source (engine, TCP server, REST server, app entry)
 tests/test_reagis.py # Python test client with metrics
 .gitignore          # ignores build artifacts
 ```
-
-## License
-
-Showcase project. Redis is a trademark of Redis Ltd.; this project is not affiliated with or endorsed by Redis.
